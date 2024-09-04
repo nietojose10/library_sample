@@ -1,7 +1,14 @@
+import { AppRouter } from './router';
+import { BrowserRouter } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { LibraryProvider } from './Library/context/LibraryProvider';
 
 export const LibraryApp = () => {
   return (
-    <div>LibraryApp</div>
+    <BrowserRouter>
+      <LibraryProvider>
+        <AppRouter/>
+      </LibraryProvider>
+    </BrowserRouter>
   )
 }
