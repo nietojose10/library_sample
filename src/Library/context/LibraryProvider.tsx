@@ -1,23 +1,29 @@
 
 import { useReducer } from 'react';
-import { LibraryContext, libraryReducer, Book, BooksState } from '../';
+import { LibraryContext, libraryReducer, Book, LibraryState, Author } from '../';
 
-const INITIAL_STATE: BooksState = {
+const INITIAL_STATE: LibraryState = {
   books: [
     {
       idBook: 1,
-      bookName: 'Dracula',
+      bookname: 'Dracula',
       chapters: 13,
       pages: 217,
-      authors: [ { authorName: 'Bram Stoker' } ]
+      authors: [ { idAuthor: 1, authorName: 'Bram Stoker' } ]
     },
     {
       idBook: 2,
-      bookName: '100 anios de soledad',
+      bookname: '100 anios de soledad',
       chapters: 15,
       pages: 615,
-      authors: [ { authorName: 'Gabriel Garcia Marquez' } ]
+      authors: [ { idAuthor: 2, authorName: 'Gabriel Garcia Marquez' } ]
     }
+  ],
+  authors: [
+    { idAuthor: 1, authorName: 'Bram Stoker'},
+    { idAuthor: 2, authorName: 'Gabriel Garcia Marquez' },
+    { idAuthor: 3, authorName: 'Lucila Gamero' },
+    { idAuthor: 4, authorName: 'Jose Nieto' }
   ]
 };
 
@@ -29,15 +35,21 @@ export const LibraryProvider = ({ children }: props ) => {
 
     const [libraryState, dispatch] = useReducer(libraryReducer, INITIAL_STATE);
 
-    const getBooks = ( books: Array<Book> ) => {
-      dispatch({ type: 'getBooks', payload: books })
+    const setBooks = ( books: Array<Book> ) => {
+      dispatch({ type: 'setBooks', payload: books })
     }
+
+    const setAuthors = ( authors: Author[] ) => {
+      dispatch({ type: 'setAuthors', payload: authors});
+    }
+
 
   return (
     <LibraryContext.Provider 
       value={{ 
-        booksState: libraryState,
-        getBooks: getBooks
+        libraryState: libraryState,
+        setBooks: setBooks,
+        setAuthors: setAuthors,
        }}>
         { children }
     </LibraryContext.Provider>

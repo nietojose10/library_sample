@@ -1,11 +1,13 @@
 import { useContext } from 'react';
-import { LibraryContext } from '../Library';
+import { Book, LibraryContext } from '../Library';
 import axios from 'axios';
+
+
 
 export const useBooks = () => {
 
-    const { getBooks } = useContext( LibraryContext );
-    let { booksState } = useContext( LibraryContext );
+    const { setBooks, libraryState } = useContext( LibraryContext );
+    // let { libraryState } = useContext( LibraryContext );
     // const { books } = booksState;
     // let newBooks: Array<Book> = [];
 
@@ -15,8 +17,17 @@ export const useBooks = () => {
             console.log(response);
             const { data } = response;
             // newBooks = data.books;
-            getBooks( data.books );
+            setBooks( data.books );
             // console.log(data.books);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const startCreatingNewBook = async( { bookname, pages, chapters, authors }: Book ) => {
+        try {
+            const response = await axios.post('http://localhost:3000/api/book/new', { book_name: bookname, pages, chapters, authors });
+            console.log(response);
         } catch (error) {
             console.log(error);
         }
@@ -24,8 +35,9 @@ export const useBooks = () => {
 
   return {
     //*properties
-        books: booksState,
+        libraryState: libraryState,
     //*methods
-        startGettingBooks
+        startGettingBooks,
+        startCreatingNewBook
   }
 }

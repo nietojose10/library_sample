@@ -1,23 +1,30 @@
-import { BooksState, Book } from '../interfaces/libraryInterfaces';
+import { LibraryState, Book, Author } from '../';
 
 type LibraryAction =
-    | { type: 'getBooks', payload: Array<Book> };
+    | { type: 'setBooks', payload: Array<Book> }
+    | { type: 'setAuthors', payload: Array<Author> };
+    
 
-export const libraryReducer = ( state: BooksState, action: LibraryAction ): BooksState => {
+export const libraryReducer = ( state: LibraryState, action: LibraryAction ): LibraryState => {
     
     console.log(action);
     // const { payload } = action;
 
     switch ( action.type ) {
-        case 'getBooks':
+        case 'setBooks':
             return {
                 ...state,
                 books: action.payload
-                // books: [ ...state.books ]
+            };
+        case 'setAuthors':
+            return {
+                ...state,
+                authors: action.payload
             }
-    
+
+
         default:
-            return state;
+            return {...state};
     }
 
 }
